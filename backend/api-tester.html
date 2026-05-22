@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dental Clinic API Tester</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: linear-gradient(135deg, #10b981, #14b8a6); padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; border-radius: 10px; padding: 30px; }
+        h1 { color: #10b981; text-align: center; }
+        .api-section { margin: 20px 0; padding: 15px; border: 2px solid #e5e7eb; border-radius: 8px; }
+        button { background: #10b981; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
+        input, select { width: 100%; padding: 8px; margin: 5px 0; border: 1px solid #ddd; border-radius: 4px; }
+        .response { margin-top: 15px; padding: 15px; background: #f9fafb; border-left: 4px solid #10b981; }
+        pre { white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🦷 Dental Clinic API Tester</h1>
+        <p style="text-align: center;">API Base: <input type="text" id="baseUrl" value="http://localhost:8000/api" style="width: 400px;"></p>
+        
+        <div class="api-section">
+            <h3>🔐 Login</h3>
+            <input type="text" id="loginUser" placeholder="Username" value="admin">
+            <input type="password" id="loginPass" placeholder="Password" value="admin123">
+            <button onclick="testLogin()">Test Login</button>
+            <div id="loginRes" class="response" style="display:none;"></div>
+        </div>
+    </div>
+    
+    <script>
+        async function testLogin() {
+            const res = await fetch(document.getElementById('baseUrl').value + '/auth/login.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    username: document.getElementById('loginUser').value,
+                    password: document.getElementById('loginPass').value
+                })
+            });
+            const data = await res.json();
+            const el = document.getElementById('loginRes');
+            el.innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+            el.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
